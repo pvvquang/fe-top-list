@@ -12,7 +12,6 @@ export const loginInstance = axios.create({
 export const axiosInstance = axios.create({
   baseURL,
   headers: ApiConstant.HEADER_DEFAULT,
-  withCredentials: true,
 });
 
 axiosInstance.interceptors.request.use((config) => {
