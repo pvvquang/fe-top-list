@@ -1,5 +1,7 @@
 import { ApiConstant } from "@/constants";
-import axios, { AxiosError, AxiosRequestHeaders, AxiosResponse } from "axios";
+import { refreshAccessToken } from "@/services/auth.service";
+import { HttpCode } from "@/types/api.type";
+import axios, { AxiosRequestHeaders, AxiosResponse } from "axios";
 import Toast from "./toastify";
 
 const baseURL = ApiConstant.BASE_URL;
@@ -33,7 +35,19 @@ axiosInstance.interceptors.request.use((config) => {
 
 axiosInstance.interceptors.response.use(
   (res: AxiosResponse) => res.data,
-  (error: AxiosError<{ message: string }>) => {
+  async (error) => {
+    const originalRequest = error.config;
+    if (
+      error.response.status === HttpCode.UNAUTHORIZED &&
+      !originalRequest._retry
+    ) {
+      originalRequest._retry = true;
+      const res = await refreshAccessToken();
+      axios.defaults.headers.common["Authorization"] =
+        "Bearer " + res.accessToken;
+      localStorage.setItem(ApiConstant.ACCESS_TOKEN, res.accessToken);
+      return axiosInstance(originalRequest);
+    }
     Toast.error({ message: "Fail to fetch api!" });
     return Promise.reject(error);
   }

@@ -27,13 +27,16 @@ function Login() {
     e.preventDefault();
     try {
       const response = await login(form);
-      console.log({ response });
       if (response.status === HttpCode.OK) {
         Toast.success({ message: response.data.message });
         router.push(PathConstant.ROUTE_ADMIN);
         localStorage.setItem(
           ApiConstant.ACCESS_TOKEN,
           response.data.accessToken
+        );
+        localStorage.setItem(
+          ApiConstant.REFRESH_TOKEN,
+          response.data.refreshToken
         );
       }
     } catch (err: any) {
