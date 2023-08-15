@@ -1,17 +1,17 @@
 export enum VARIANT {
-  text = "btn-text",
-  contained = "btn-contained",
-  outline = "btn-outline",
+  text = "text",
+  contained = "contained",
+  outline = "outline",
 }
 
 export enum THEME {
-  primary = "btn-primary",
-  success = "btn-success",
-  error = "btn-error",
-  warning = "btn-warning",
-  info = "btn-info",
-  dark = "btn-dark",
-  light = "btn-light",
+  primary = "primary",
+  success = "success",
+  error = "error",
+  warning = "warning",
+  info = "info",
+  dark = "dark",
+  light = "light",
 }
 
 export enum SIZE {
