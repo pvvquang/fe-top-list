@@ -15,7 +15,7 @@ export enum THEME {
 }
 
 export enum SIZE {
-  small = "btn-small",
-  medium = "btn-medium",
-  large = "btn-large",
+  small = "small",
+  medium = "medium",
+  large = "large",
 }
