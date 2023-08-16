@@ -59,14 +59,15 @@ function AdminLayout({ children }: { children: React.ReactNode }) {
                 <Link
                   title={menu.label}
                   href={menu.path}
-                  className={`flex items-center px-4 py-3 mt-2 gap-2 rounded-xl text-sm font-semibold group-hover:bg-indigo-500 transition ${
+                  className={`flex items-center px-4 py-3 mt-2 gap-2 rounded-xl text-sm font-semibold group-hover:bg-indigo-500 group-hover:text-white transition ${
                     checkActive(menu.path)
-                      ? "bg-indigo-500 text-white font-bold"
+                      ? "bg-indigo-500 text-white font-bold cursor-default"
                       : "text-gray-600"
                   }`}>
                   <menu.Icon
                     width={28}
                     color={checkActive(menu.path) ? "#fff" : undefined}
+                    className="group-hover:[&>*]:stroke-white group-hover:[&>*>*]:stroke-white"
                   />
                   {menu.label}
                 </Link>
