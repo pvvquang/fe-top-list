@@ -10,10 +10,23 @@ interface TableProps {
 
 function TableBase({ columns, rows, useCheckbox = false }: TableProps) {
   return (
-    <table>
-      <TableHead columns={columns} useCheckbox={useCheckbox} />
-      <TableBody columns={columns} rows={rows} useCheckbox={useCheckbox} />
-    </table>
+    <div className="relative overflow-x-auto">
+      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <TableHead columns={columns} useCheckbox={useCheckbox} />
+        <TableBody columns={columns} rows={rows} useCheckbox={useCheckbox} />
+      </table>
+    </div>
   );
 }
+
+export const getALignmentClass = (align: TableColumn["align"]) => {
+  if (align === "right") {
+    return "justify-end";
+  } else if (align === "center") {
+    return "justify-center";
+  } else {
+    return "justify-start";
+  }
+};
+
 export default TableBase;

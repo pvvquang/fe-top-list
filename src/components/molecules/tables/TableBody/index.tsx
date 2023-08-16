@@ -1,3 +1,4 @@
+import { getALignmentClass } from "..";
 import ConditionalRender from "../../../atoms/ConditionalRender";
 import { TableColumn } from "../table.type";
 
@@ -12,15 +13,17 @@ function TableBody({ rows, useCheckbox, columns }: IProps) {
     <tbody>
       <ConditionalRender conditional={!!rows.length} fallback={<TableNoData />}>
         {rows.map((row, i) => (
-          <tr key={i}>
+          <tr key={i} className="bg-white border-b">
             {useCheckbox && (
-              <td>
+              <td className="px-6 py-4">
                 <input type="checkbox" />
               </td>
             )}
             {columns.map((column) => (
-              <td key={column.id}>
-                <div>{row[column.id]}</div>
+              <td key={column.id} className="px-6 py-4">
+                <div className={`flex ${getALignmentClass(column.align)}`}>
+                  {row[column.id]}
+                </div>
               </td>
             ))}
           </tr>
