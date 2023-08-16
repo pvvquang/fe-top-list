@@ -1,36 +1,29 @@
-import Link from "next/link";
 import { ReactNode, useMemo } from "react";
 import { SIZE, THEME, VARIANT } from "./constant";
 
 interface ButtonProps {
   label?: string;
   children?: ReactNode;
-  variant: keyof typeof VARIANT;
+  variant?: keyof typeof VARIANT;
   color?: keyof typeof THEME;
   size?: keyof typeof SIZE;
   disabled?: boolean;
   onClick: () => void;
-  tagName?: keyof JSX.IntrinsicElements;
-  href?: string;
   classNameProps?: string;
+  type?: "button" | "submit" | "reset";
 }
-
-type ButtonPropsCustom = ButtonProps;
 
 function Button({
   label = "",
   children,
-  variant,
+  variant = VARIANT.contained,
   color = THEME.primary,
   size = SIZE.small,
   disabled,
   onClick,
-  tagName = "button",
-  href = "#",
   classNameProps,
+  type = "button",
 }: ButtonProps) {
-  const TagName = tagName;
-
   const className = useMemo(() => {
     let _className =
       "flex items-center justify-center rounded-md w-max  text-sm font-semibold leading-6 transition";
@@ -57,6 +50,13 @@ function Button({
       case THEME.success:
         _className += " text-indigo-500";
         break;
+      case THEME.error:
+        _className += " bg-red-600 text-white shadow-sm hover:bg-red-500";
+        break;
+      case THEME.info:
+        _className +=
+          " bg-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50";
+        break;
       default:
         _className += "";
         break;
@@ -78,21 +78,17 @@ function Button({
     }
     _className += ` ${classNameProps}`;
     return _className;
-  }, [variant, color, size]);
+  }, [variant, color, size, classNameProps, disabled]);
 
   const handleClick = () => {
     if (disabled) return;
     onClick();
   };
 
-  return TagName === "a" ? (
-    <Link href={href} className={className} onClick={handleClick}>
+  return (
+    <button type={type} className={className} onClick={handleClick}>
       {children ? children : label}
-    </Link>
-  ) : (
-    <TagName className={className} onClick={handleClick}>
-      {children ? children : label}
-    </TagName>
+    </button>
   );
 }
 
