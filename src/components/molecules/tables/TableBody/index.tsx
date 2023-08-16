@@ -1,4 +1,4 @@
-import ConditionalRender from "../../ConditionalRender";
+import ConditionalRender from "../../../atoms/ConditionalRender";
 import { TableColumn } from "../table.type";
 
 interface IProps {
