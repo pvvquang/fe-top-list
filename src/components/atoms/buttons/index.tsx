@@ -1,3 +1,5 @@
+"use-client";
+
 import { ReactNode, useMemo } from "react";
 import { SIZE, THEME, VARIANT } from "./constant";
 
@@ -26,7 +28,7 @@ function Button({
 }: ButtonProps) {
   const className = useMemo(() => {
     let _className =
-      "flex items-center justify-center rounded-md w-max  text-sm font-semibold leading-6 transition";
+      "flex items-center justify-center rounded-md w-max text-sm font-semibold leading-6 transition";
     switch (variant) {
       case VARIANT.contained:
         _className += " shadow-sm";
