@@ -1,5 +1,4 @@
-import { getALignmentClass } from "..";
-import { TableColumn } from "../table.type";
+import { TableColumn, getALignmentClass } from "..";
 
 interface IProps {
   useCheckbox?: boolean;
@@ -16,16 +15,21 @@ function TableHead({ useCheckbox, columns }: IProps) {
           </th>
         )}
         {columns.map((column) => (
-          <th key={column.id} className="px-6 py-3">
-            <div className={`flex ${getALignmentClass(column.align)}`}>
-              {column.label}
-            </div>
-          </th>
+          <TableHead.Item key={column.id} column={column} />
         ))}
       </tr>
     </thead>
   );
 }
 
-export default TableHead;
+TableHead.Item = function TableHeaderItem({ column }: { column: TableColumn }) {
+  return (
+    <th className="px-6 py-3">
+      <div className={`flex ${getALignmentClass(column.align)}`}>
+        {column.label}
+      </div>
+    </th>
+  );
+};
 
+export default TableHead;

@@ -1,7 +1,6 @@
 import Button from "@/components/atoms/buttons";
-import { getALignmentClass } from "..";
+import { TableColumn, getALignmentClass } from "..";
 import ConditionalRender from "../../../atoms/ConditionalRender";
-import { TableColumn } from "../table.type";
 import Dropdown from "@/components/atoms/Dropdown";
 import IconArrowDown from "@/components/atoms/icons/IconArrowDown";
 
@@ -43,7 +42,11 @@ function TableBody({ rows, useCheckbox, columns }: IProps) {
 function TableNoData() {
   return (
     <tr>
-      <td colSpan={100}>No Data</td>
+      <td colSpan={100}>
+        <div className="flex justify-center items-center h-[200px] border border-t-0">
+          No Data
+        </div>
+      </td>
     </tr>
   );
 }
