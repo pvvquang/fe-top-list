@@ -5,4 +5,5 @@ export interface TableColumn {
   sortBy?: string;
   orderBy?: "asc" | "desc";
   ellipsisNumber?: number;
+  actions?: Array<"delete" | "edit">;
 }

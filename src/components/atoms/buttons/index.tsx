@@ -29,8 +29,7 @@ function Button({
       "flex items-center justify-center rounded-md w-max  text-sm font-semibold leading-6 transition";
     switch (variant) {
       case VARIANT.contained:
-        _className +=
-          " shadow-sm bg-indigo-500 hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600";
+        _className += " shadow-sm";
         break;
       case VARIANT.outline:
         _className += " border border-current";
@@ -42,7 +41,8 @@ function Button({
     switch (color) {
       case THEME.primary:
         if (variant === VARIANT.contained) {
-          _className += " text-white";
+          _className +=
+            " text-white bg-indigo-500 hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600";
         } else {
           _className += " text-indigo-500";
         }
@@ -61,16 +61,18 @@ function Button({
         _className += "";
         break;
     }
-    switch (size) {
-      case SIZE.large:
-        _className += " px-6 py-3.5";
-        break;
-      case SIZE.medium:
-        _className += " px-5 py-2.5";
-        break;
-      default:
-        _className += " px-3 py-2";
-        break;
+    if (variant !== VARIANT.text) {
+      switch (size) {
+        case SIZE.large:
+          _className += " px-6 py-3.5";
+          break;
+        case SIZE.medium:
+          _className += " px-5 py-2.5";
+          break;
+        default:
+          _className += " px-3 py-2";
+          break;
+      }
     }
     if (disabled) {
       _className +=

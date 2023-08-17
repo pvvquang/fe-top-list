@@ -1,6 +1,9 @@
+import Button from "@/components/atoms/buttons";
 import { getALignmentClass } from "..";
 import ConditionalRender from "../../../atoms/ConditionalRender";
 import { TableColumn } from "../table.type";
+import Dropdown from "@/components/atoms/Dropdown";
+import IconArrowDown from "@/components/atoms/icons/IconArrowDown";
 
 interface IProps {
   columns: TableColumn[];
@@ -22,7 +25,11 @@ function TableBody({ rows, useCheckbox, columns }: IProps) {
             {columns.map((column) => (
               <td key={column.id} className="px-6 py-4">
                 <div className={`flex ${getALignmentClass(column.align)}`}>
-                  {row[column.id]}
+                  <ConditionalRender
+                    conditional={column.id === "actions"}
+                    fallback={row[column.id]}>
+                    <TableCellAction />
+                  </ConditionalRender>
                 </div>
               </td>
             ))}
@@ -38,6 +45,25 @@ function TableNoData() {
     <tr>
       <td colSpan={100}>No Data</td>
     </tr>
+  );
+}
+
+function TableCellAction() {
+  const options = [
+    { id: "1", label: "Edit" },
+    { id: "2", label: "Delete" },
+  ];
+  return (
+    <Dropdown options={options} mode="fixed">
+      <Button
+        variant="outline"
+        onClick={() => {}}
+        color="info"
+        classNameProps="gap-2 px-4 h-[38px]">
+        <span>Actions</span>
+        <IconArrowDown width={10} />
+      </Button>
+    </Dropdown>
   );
 }
 
