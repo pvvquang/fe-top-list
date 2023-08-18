@@ -4,24 +4,31 @@ import { useEffect, useRef } from "react";
 import { useOnClickOutside } from "usehooks-ts";
 import { ReactNode, useState } from "react";
 import ConditionalRender from "../ConditionalRender";
-
-interface DropdownItem {
-  id: string | number;
-  label: string;
-}
+import { SelectOption } from "@/types/common.type";
 interface DropdownProps {
-  options: DropdownItem[];
+  options: SelectOption[];
   children: ReactNode;
   mode?: "fixed" | "absolute";
+  onChange: (item: SelectOption) => void;
 }
 
-function Dropdown({ options, children, mode = "absolute" }: DropdownProps) {
+function Dropdown({
+  options,
+  children,
+  mode = "absolute",
+  onChange,
+}: DropdownProps) {
   const [openDropdown, setOpenDropdown] = useState(false);
 
   const ref = useRef<HTMLDivElement | null>(null);
   const refOptions = useRef<HTMLDivElement | null>(null);
 
   const handleClickOutside = () => {
+    setOpenDropdown(false);
+  };
+
+  const handleClickOption = (option: SelectOption) => {
+    onChange(option);
     setOpenDropdown(false);
   };
 
@@ -48,8 +55,9 @@ function Dropdown({ options, children, mode = "absolute" }: DropdownProps) {
             className="py-2 text-sm text-gray-700 dark:text-gray-200"
             aria-labelledby="dropdownDefaultButton">
             {options.map((option) => (
-              <li key={option.id}>
+              <li key={option.id} onClick={() => handleClickOption(option)}>
                 <a
+                  onClick={(e) => e.preventDefault()}
                   href="#"
                   className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                   {option.label}
