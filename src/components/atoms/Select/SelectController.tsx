@@ -31,12 +31,10 @@ const SelectController: React.FC<IProps> = ({
       <select
         className="w-max min-w-[80px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 pr-6 appearance-none"
         style={{ ...styleArrow, width }}
-        defaultValue={defaultValue}>
+        defaultValue={defaultValue}
+        onChange={(e) => onChange(e.target.value)}>
         {options.map((option) => (
-          <option
-            key={option.id}
-            value={option.id}
-            onClick={() => onChange(option.id)}>
+          <option key={option.id} value={option.id}>
             {option.label}
           </option>
         ))}

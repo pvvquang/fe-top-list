@@ -59,6 +59,12 @@ function Pagination({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activePage, totalPage]);
 
+  useEffect(() => {
+    if (page === activePage) return;
+    setActivePage(page);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
+
   return (
     <div className={`Table__pagination flex items-center gap-3 ${className}`}>
       <div className="Table__prevPageWrapper">
