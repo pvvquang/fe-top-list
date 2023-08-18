@@ -1,6 +1,11 @@
-function Loading() {
+interface LoadingProps {
+  isPageLoading?: boolean;
+}
+
+function Loading({ isPageLoading }: LoadingProps) {
+  const className = isPageLoading ? "fixed inset-0 dark:bg-gray-800/[.6]" : "";
   return (
-    <div className="fixed inset-0 dark:bg-gray-800/[.6] flex items-center justify-center text-black">
+    <div className={`flex items-center justify-center text-black ${className}`}>
       <svg
         aria-hidden="true"
         className="inline w-10 h-10 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"

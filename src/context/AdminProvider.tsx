@@ -49,7 +49,7 @@ export const AdminProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <AdminContext.Provider value={value}>
       <ConditionalRender conditional={pageLoading} fallback={children}>
-        <Loading />
+        <Loading isPageLoading />
       </ConditionalRender>
     </AdminContext.Provider>
   );
