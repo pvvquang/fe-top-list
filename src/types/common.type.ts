@@ -17,3 +17,8 @@ export interface IPagination {
   page: number;
   pageSize: number;
 }
+
+export interface IModalState<T> {
+  data: T | null;
+  open: boolean;
+}

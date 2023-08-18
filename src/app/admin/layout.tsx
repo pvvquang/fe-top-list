@@ -46,7 +46,7 @@ function AdminLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <AdminProvider>
-      <div className="flex">
+      <div className="flex max-w-[1440px] mx-auto">
         <div className="h-screen shrink-0 border-r w-[240px] flex flex-col">
           <Link
             href="/admin"
@@ -82,7 +82,7 @@ function AdminLayout({ children }: { children: React.ReactNode }) {
             </button>
           </div>
         </div>
-        <div className="flex-1">{children}</div>
+        <div className="flex-1 overflow-y-auto max-h-screen">{children}</div>
       </div>
     </AdminProvider>
   );

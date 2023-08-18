@@ -20,10 +20,12 @@ export const fetchCategoryById = async (id: number): Promise<Category> => {
 };
 
 export const updateCategoryById = async (
-  id: number,
-  data: { categoryName: string }
+  data: Category
 ): Promise<ResponseCategory> => {
-  return axiosInstance.put(PathConstant.API_LIST_CATEGORY + "/" + id, data);
+  return axiosInstance.put(
+    PathConstant.API_LIST_CATEGORY + "/" + data.id,
+    data
+  );
 };
 
 export const deleteCategoryById = async (

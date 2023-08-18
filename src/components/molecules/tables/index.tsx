@@ -1,8 +1,8 @@
+import ConditionalRender from "@/components/atoms/ConditionalRender";
 import Pagination from "@/components/atoms/Pagination";
+import SelectController from "@/components/atoms/Select/SelectController";
 import TableBody from "./TableBody";
 import TableHead from "./TableHead";
-import SelectController from "@/components/atoms/Select/SelectController";
-import ConditionalRender from "@/components/atoms/ConditionalRender";
 
 const PAGE_SIZES = [
   { id: 10, label: "10" },
@@ -11,7 +11,7 @@ const PAGE_SIZES = [
   { id: 100, label: "100" },
 ];
 
-const PAGINATION = {
+export const PAGINATION = {
   PAGE: 1,
   PAGE_SIZE: 10,
 };
@@ -26,14 +26,22 @@ export interface TableColumn {
   actions?: Array<"delete" | "edit">;
 }
 
+interface TablePagination {
+  page: number;
+  totalPages: number;
+  totalItems?: number;
+}
+
 interface TableProps {
   columns: TableColumn[];
   rows: any[];
   useCheckbox?: boolean;
   onEdit?: (rowData: any) => void;
   onDelete?: (rowData: any) => void;
-  onChangePage?: (page: number) => void;
-  onChangePageSize?: (page: number) => void;
+  onChangePage: (page: number) => void;
+  onChangePageSize: (pageSize: number) => void;
+  pagination: TablePagination;
+  loading?: boolean;
 }
 
 function TableBase({
@@ -44,7 +52,11 @@ function TableBase({
   onChangePageSize,
   onDelete,
   onEdit,
+  pagination,
+  loading = false,
 }: TableProps) {
+  const { page, totalPages, totalItems = 0 } = pagination;
+
   return (
     <div className="relative overflow-x-auto">
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -55,22 +67,22 @@ function TableBase({
           useCheckbox={useCheckbox}
           onDelete={onDelete}
           onEdit={onEdit}
+          loading={loading}
         />
       </table>
 
       <ConditionalRender conditional={!!rows.length}>
         <div className="flex justify-between mt-4">
           <SelectController
-            onChange={(pageSize) =>
-              onChangePageSize && onChangePageSize(+pageSize)
-            }
+            onChange={(pageSize) => onChangePageSize(+pageSize)}
             defaultValue={PAGINATION.PAGE_SIZE}
             options={PAGE_SIZES}
           />
           <Pagination
-            page={PAGINATION.PAGE}
-            totalPage={10}
-            onPageChange={(page) => onChangePage && onChangePage(page)}
+            page={page}
+            totalPage={totalPages}
+            onPageChange={(page) => onChangePage(+page)}
+            className="ml-auto"
           />
         </div>
       </ConditionalRender>

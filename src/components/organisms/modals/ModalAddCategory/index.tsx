@@ -1,14 +1,15 @@
 "use client";
-
 import InputField from "@/components/atoms/inputs/InputField";
 import Modal from "@/components/molecules/modal";
+import { Category } from "@/types/category.type";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
 
 interface IProps {
   onClose: () => void;
-  onSubmit: () => void;
+  onSubmit: (categoryName: string) => Promise<void>;
+  category: Category | null;
 }
 
 const schema = yup.object().shape({
@@ -19,18 +20,19 @@ const schema = yup.object().shape({
 });
 type FormValues = yup.InferType<typeof schema>;
 
-function ModalAddCategory({ onClose, onSubmit }: IProps) {
+function ModalAddCategory({ onClose, onSubmit, category }: IProps) {
   const {
     handleSubmit,
     register,
     formState: { errors, touchedFields },
   } = useForm<FormValues>({
-    defaultValues: { categoryName: "" },
+    defaultValues: !!category ? category : { categoryName: "" },
     resolver: yupResolver(schema),
   });
 
-  const handleSubmitForm: SubmitHandler<FormValues> = (data) => {
-    console.log({ data });
+  const handleSubmitForm: SubmitHandler<FormValues> = async (data) => {
+    await onSubmit(data.categoryName);
+    onClose();
   };
 
   return (
@@ -50,7 +52,7 @@ function ModalAddCategory({ onClose, onSubmit }: IProps) {
             />
           </div>
         </Modal.Body>
-        <Modal.Footer onCancel={onClose} onSubmit={onSubmit} />
+        <Modal.Footer onCancel={onClose} onSubmit={() => {}} />
       </form>
     </Modal>
   );
