@@ -3,14 +3,23 @@ import { TableColumn, getALignmentClass } from "..";
 import ConditionalRender from "../../../atoms/ConditionalRender";
 import Dropdown from "@/components/atoms/Dropdown";
 import IconArrowDown from "@/components/atoms/icons/IconArrowDown";
+import { SelectOption } from "@/types/common.type";
 
-interface IProps {
+interface TableBodyProps {
   columns: TableColumn[];
   rows: any[];
   useCheckbox?: boolean;
+  onEdit?: (rowData: any) => void;
+  onDelete?: (rowData: any) => void;
 }
 
-function TableBody({ rows, useCheckbox, columns }: IProps) {
+function TableBody({
+  rows,
+  useCheckbox,
+  columns,
+  onDelete,
+  onEdit,
+}: TableBodyProps) {
   return (
     <tbody>
       <ConditionalRender conditional={!!rows.length} fallback={<TableNoData />}>
@@ -27,7 +36,11 @@ function TableBody({ rows, useCheckbox, columns }: IProps) {
                   <ConditionalRender
                     conditional={column.id === "actions"}
                     fallback={row[column.id]}>
-                    <TableCellAction />
+                    <TableCellAction
+                      onDelete={onDelete}
+                      onEdit={onEdit}
+                      row={row}
+                    />
                   </ConditionalRender>
                 </div>
               </td>
@@ -51,13 +64,31 @@ function TableNoData() {
   );
 }
 
-function TableCellAction() {
-  const options = [
-    { id: "1", label: "Edit" },
-    { id: "2", label: "Delete" },
-  ];
+enum TABLE_ACTIONS {
+  EDIT = 1,
+  DELETE = 2,
+}
+
+const tableActions = [
+  { id: TABLE_ACTIONS.EDIT, label: "Edit" },
+  { id: TABLE_ACTIONS.DELETE, label: "Delete" },
+];
+
+function TableCellAction({
+  onDelete,
+  onEdit,
+  row,
+}: Partial<TableBodyProps> & { row: any }) {
+  const handleClickAction = (option: SelectOption) => {
+    if (option.id === TABLE_ACTIONS.EDIT) {
+      onEdit && onEdit(row);
+    } else {
+      onDelete && onDelete(row);
+    }
+  };
+
   return (
-    <Dropdown options={options} mode="fixed">
+    <Dropdown options={tableActions} mode="fixed" onChange={handleClickAction}>
       <Button
         variant="outline"
         onClick={() => {}}
