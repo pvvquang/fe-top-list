@@ -9,6 +9,7 @@ import IconPosts from "@/components/atoms/icons/IconPosts";
 import IconMedia from "@/components/atoms/icons/IconMedia";
 import { AdminProvider } from "@/context/AdminProvider";
 import { ApiConstant, PathConstant } from "@/constants";
+import Button from "@/components/atoms/buttons";
 
 const menus = [
   {
@@ -75,11 +76,12 @@ function AdminLayout({ children }: { children: React.ReactNode }) {
             ))}
           </ul>
           <div className="px-4 py-2">
-            <button
-              className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              onClick={handleLogout}>
-              Logout
-            </button>
+            <Button
+              label="Logout"
+              onClick={handleLogout}
+              width={"100%"}
+              size="small"
+            />
           </div>
         </div>
         <div className="flex-1 overflow-y-auto max-h-screen">{children}</div>

@@ -13,6 +13,7 @@ interface ButtonProps {
   onClick: () => void;
   classNameProps?: string;
   type?: "button" | "submit" | "reset";
+  width?: string | number;
 }
 
 function Button({
@@ -25,6 +26,7 @@ function Button({
   onClick,
   classNameProps,
   type = "button",
+  width,
 }: ButtonProps) {
   const className = useMemo(() => {
     let _className =
@@ -90,7 +92,7 @@ function Button({
   };
 
   return (
-    <button type={type} className={className} onClick={handleClick}>
+    <button type={type} className={className} onClick={handleClick} style={{width}}>
       {children ? children : label}
     </button>
   );
