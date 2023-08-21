@@ -58,8 +58,13 @@ function Button({
         _className += " bg-red-600 text-white shadow-sm hover:bg-red-500";
         break;
       case THEME.info:
-        _className +=
-          " bg-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50";
+        if (variant === VARIANT.contained) {
+          _className +=
+            " bg-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50";
+        } else {
+          _className += " font-normal hover:underline";
+        }
+
         break;
       default:
         _className += "";
@@ -92,7 +97,11 @@ function Button({
   };
 
   return (
-    <button type={type} className={className} onClick={handleClick} style={{width}}>
+    <button
+      type={type}
+      className={className}
+      onClick={handleClick}
+      style={{ width }}>
       {children ? children : label}
     </button>
   );

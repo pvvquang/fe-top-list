@@ -24,12 +24,12 @@ const menus = [
     Icon: IconPosts,
     path: "/admin/posts",
   },
-  {
-    id: 3,
-    label: "Media",
-    Icon: IconMedia,
-    path: "/admin/media",
-  },
+  // {
+  //   id: 3,
+  //   label: "Media",
+  //   Icon: IconMedia,
+  //   path: "/admin/media",
+  // },
 ];
 
 function AdminLayout({ children }: { children: React.ReactNode }) {

@@ -12,18 +12,18 @@ export const createCategory = async (
 export const fetchCategories = async (
   params: string
 ): Promise<ListResponse<Category[]>> => {
-  return axiosInstance.get(PathConstant.API_LIST_CATEGORY + params);
+  return axiosInstance.get(PathConstant.API_CATEGORY_BASE + params);
 };
 
 export const fetchCategoryById = async (id: number): Promise<Category> => {
-  return axiosInstance.get(PathConstant.API_LIST_CATEGORY + "/" + id);
+  return axiosInstance.get(PathConstant.API_CATEGORY_BASE + "/" + id);
 };
 
 export const updateCategoryById = async (
   data: Category
 ): Promise<ResponseCategory> => {
   return axiosInstance.put(
-    PathConstant.API_LIST_CATEGORY + "/" + data.id,
+    PathConstant.API_CATEGORY_BASE + "/" + data.id,
     data
   );
 };
@@ -31,5 +31,5 @@ export const updateCategoryById = async (
 export const deleteCategoryById = async (
   id: number
 ): Promise<ResponseCategory> => {
-  return axiosInstance.delete(PathConstant.API_LIST_CATEGORY + "/" + id);
+  return axiosInstance.delete(PathConstant.API_CATEGORY_BASE + "/" + id);
 };

@@ -41,10 +41,12 @@ const InputField = forwardRef<
         type={type}
         placeholder={placeholder}
         className={`mt-2 block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset placeholder:text-gray-400 ring-gray-300 focus:ring-indigo-600 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 outline-none ${
-          error ? "focus:ring-red-600 ring-red-300" : ""
+          !!errorMessage ? "focus:ring-red-600 ring-red-300" : ""
         }`}
       />
-      {error && <p className="text-xs mt-2 text-red-500">{errorMessage}</p>}
+      {!!errorMessage && (
+        <p className="text-xs mt-2 text-red-500">{errorMessage}</p>
+      )}
     </Fragment>
   );
 });
