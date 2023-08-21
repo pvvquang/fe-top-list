@@ -64,7 +64,6 @@ function CategoryPage() {
       index: (objectQuery.page - 1) * objectQuery.pageSize + (i + 1),
     };
   };
-  console.log({ objectQuery });
 
   const getCategories = () => {
     setLoading(true);
