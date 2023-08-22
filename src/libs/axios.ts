@@ -15,7 +15,7 @@ export const loginInstance = axios.create({
   headers: ApiConstant.HEADER_DEFAULT,
 });
 
-const axiosInstance = axios.create({
+const _axiosInstance = axios.create({
   baseURL,
   headers: ApiConstant.HEADER_DEFAULT,
 });
@@ -51,7 +51,7 @@ function configInterceptors(instance: AxiosInstance) {
         axios.defaults.headers.common["Authorization"] =
           "Bearer " + res.accessToken;
         localStorage.setItem(ApiConstant.ACCESS_TOKEN, res.accessToken);
-        return axiosInstance(originalRequest);
+        return instance(originalRequest);
       }
       Toast.error({ message: "Fail to fetch api!" });
       return Promise.reject(error);
@@ -67,4 +67,5 @@ export const axiosInstanceFormFile = configInterceptors(
   })
 );
 
-export default configInterceptors(axiosInstance);
+const axiosInstance = configInterceptors(_axiosInstance);
+export default axiosInstance;
