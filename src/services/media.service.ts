@@ -21,5 +21,5 @@ export const fetchMediaByKey = async (key: number): Promise<IMedia> => {
 export const deleteMediaByKey = async (
   key: string
 ): Promise<Partial<ResponseCategory>> => {
-  return axiosInstance.delete(PathConstant.API_CATEGORY_BASE + "/" + key);
+  return axiosInstance.delete(PathConstant.API_MEDIA_BASE + "/" + key);
 };
