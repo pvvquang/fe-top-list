@@ -61,7 +61,9 @@ const UploadFile = forwardRef<
         }>
         <label
           htmlFor={`dropzone-file-${name}`}
-          className="mt-2 flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50  hover:bg-gray-100">
+          className={`mt-2 flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50  hover:bg-gray-100 ${
+            !!errorMessage ? "border-red-300" : "border-gray-300"
+          }`}>
           <div className="flex flex-col items-center justify-center pt-5 pb-6">
             <svg
               className="w-8 h-8 mb-4 text-gray-500"
