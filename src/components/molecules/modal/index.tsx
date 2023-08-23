@@ -71,14 +71,14 @@ Modal.Footer = function FooterModal({
   onCancel,
   children,
 }: FooterModalProps) {
+  const handleSubmit = async () => {
+    onSubmit && (await onSubmit());
+    onCancel();
+  };
   return (
     <ConditionalRender conditional={!children} fallback={children}>
       <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 gap-4">
-        <Button
-          label={labelSubmit}
-          type="submit"
-          onClick={() => onSubmit && onSubmit()}
-        />
+        <Button label={labelSubmit} type="submit" onClick={handleSubmit} />
         <Button label={labelCancel} color="info" onClick={onCancel} />
       </div>
     </ConditionalRender>
