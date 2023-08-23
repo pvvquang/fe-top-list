@@ -8,8 +8,8 @@ export interface Metadata {
   totalPages: number;
 }
 
-export interface ListResponse<T> {
-  data: T;
+export interface ResponseList<T> {
+  data: Array<T>;
   metadata: Metadata;
 }
 

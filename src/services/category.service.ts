@@ -1,7 +1,7 @@
 import { PathConstant } from "@/constants";
 import axiosInstance from "@/libs/axios";
 import { Category, ResponseCategory } from "@/types/category.type";
-import { ListResponse } from "@/types/common.type";
+import { ResponseList } from "@/types/common.type";
 
 export const createCategory = async (
   categoryName: string
@@ -11,7 +11,7 @@ export const createCategory = async (
 
 export const fetchCategories = async (
   params: string
-): Promise<ListResponse<Category[]>> => {
+): Promise<ResponseList<Category>> => {
   return axiosInstance.get(PathConstant.API_CATEGORY_BASE + params);
 };
 

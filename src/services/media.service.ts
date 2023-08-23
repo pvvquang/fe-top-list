@@ -1,7 +1,7 @@
 import { PathConstant } from "@/constants";
 import axiosInstance, { axiosInstanceFormFile } from "@/libs/axios";
 import { ResponseCategory } from "@/types/category.type";
-import { ListResponse } from "@/types/common.type";
+import { ResponseList } from "@/types/common.type";
 import { IMedia } from "@/types/media.type";
 
 export const createMedia = async (data: FormData): Promise<IMedia> => {
@@ -10,7 +10,7 @@ export const createMedia = async (data: FormData): Promise<IMedia> => {
 
 export const fetchListMedia = async (
   params: string
-): Promise<ListResponse<IMedia[]>> => {
+): Promise<ResponseList<IMedia>> => {
   return axiosInstance.get(PathConstant.API_MEDIA_BASE + params);
 };
 
