@@ -1,9 +1,16 @@
 import { PathConstant } from "@/constants";
 import axiosInstance, { axiosInstanceFormFile } from "@/libs/axios";
+import { ResponseList } from "@/types/common.type";
 import { IPost } from "@/types/post.type";
 
 export const createNewPost = async (data: FormData) => {
   return axiosInstanceFormFile.post(PathConstant.API_CREATE_POST, data);
+};
+
+export const getListPost = async (
+  queryParams: string
+): Promise<ResponseList<IPost>> => {
+  return axiosInstance.get(PathConstant.API_POSTS_BASE + queryParams);
 };
 
 export const getPostById = async (id: string): Promise<IPost> => {

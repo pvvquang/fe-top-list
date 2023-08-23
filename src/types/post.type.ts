@@ -8,7 +8,7 @@ export interface IPostState {
   content: string;
   userId: string;
   categoryId: number;
-  thumbnail: IMedia | File | undefined;
+  thumbnail: File | undefined;
   imageKeys: string[];
   type: string;
   trending: boolean;
@@ -16,12 +16,13 @@ export interface IPostState {
   meta: string;
 }
 
-export interface IPost extends IPostState {
+export interface IPost extends Omit<IPostState, "thumbnail"> {
   id: string;
   user: User;
   category: Category;
   isPublish: boolean;
   publishedAt: Date;
+  thumbnail: IMedia;
 }
 
 export interface IPostRequest

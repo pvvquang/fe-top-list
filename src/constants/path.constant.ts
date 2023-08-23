@@ -16,3 +16,6 @@ export const API_POSTS_BY_SLUG = "/posts/slug";
 // routes
 export const ROUTE_LOGIN = "/login";
 export const ROUTE_ADMIN = "/admin";
+export const ROUTE_ADMIN_POST = "/admin/posts";
+export const ROUTE_ADMIN_POST_CREATE = "/admin/posts/create";
+export const ROUTE_ADMIN_POST_EDIT = "/admin/posts/{0}/edit";
