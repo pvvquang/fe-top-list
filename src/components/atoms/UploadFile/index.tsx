@@ -109,7 +109,7 @@ interface CardImageProps {
   onDelete: () => void;
 }
 
-const CardImage = ({ title, imageLink, onDelete }: CardImageProps) => {
+export function CardImage({ title, imageLink, onDelete }: CardImageProps) {
   return (
     <div className="p-4 border border-gray-300 rounded-md w-max">
       <div className="flex items-center justify-between gap-2 max-w-[400px]">
@@ -124,15 +124,17 @@ const CardImage = ({ title, imageLink, onDelete }: CardImageProps) => {
           onClick={onDelete}
         />
       </div>
-      <Image
-        className="mt-2"
-        src={imageLink}
-        alt={title}
-        width={400}
-        height={400}
-      />
+      <ConditionalRender conditional={!!imageLink}>
+        <Image
+          className="mt-2"
+          src={imageLink}
+          alt={title}
+          width={400}
+          height={400}
+        />
+      </ConditionalRender>
     </div>
   );
-};
+}
 
 export default UploadFile;

@@ -78,8 +78,6 @@ function Editor({
     );
     if (!toolbarEditor) return;
     toolbarEditor.appendChild(editor.ui.view.toolbar.element as Node);
-    //@ts-ignore
-    window.editor = editor;
     onReady && onReady(editor);
   };
 

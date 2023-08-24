@@ -6,14 +6,15 @@ export interface IPostState {
   title: string;
   slug: string;
   content: string;
-  userId: string;
+  userId?: string;
   categoryId: number;
-  thumbnail: File | undefined;
+  thumbnail?: IMedia;
+  file?: FileList | null;
   imageKeys: string[];
-  type: string;
-  trending: boolean;
-  author: string;
-  meta: string;
+  type?: string;
+  trending?: boolean;
+  author?: string;
+  meta?: string;
 }
 
 export interface IPost extends Omit<IPostState, "thumbnail"> {
@@ -26,7 +27,7 @@ export interface IPost extends Omit<IPostState, "thumbnail"> {
 }
 
 export interface IPostRequest
-  extends Omit<IPostState, "thumbnail" | "trending"> {
+  extends Omit<IPostState, "thumbnail" | "trending" | "file"> {
   file: File;
   trending?: boolean;
 }

@@ -7,12 +7,13 @@ import { useAdminContent } from "@/context/AdminProvider";
 import { fetchCategories } from "@/services/category.service";
 import { deleteMediaByKey } from "@/services/media.service";
 import { SelectOption } from "@/types/common.type";
-import { IPostRequest } from "@/types/post.type";
+import { IPostRequest, IPostState } from "@/types/post.type";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
 import Editor from "../atoms/editor/Editor";
+import ConditionalRender from "../atoms/ConditionalRender";
 
 const schema = yup.object({
   title: yup.string().required("Input field required"),
@@ -24,13 +25,15 @@ const schema = yup.object({
     .typeError("Input field required")
     .nullable()
     .required(),
-  thumbnail: yup
-    .mixed<FileList>() // Pass in the type of `fileUpload`
+  file: yup
+    .mixed<FileList>()
     .test("thumbnail", "You need to provide a file", (files) => {
       if (files && files.length > 0) return true;
       return false;
-    }),
-  imageKeys: yup.array<string[]>(),
+    })
+    .nullable()
+    .required(),
+  imageKeys: yup.array().of(yup.string().required()).required(),
   trending: yup.boolean(),
   type: yup.string(),
   author: yup.string(),
@@ -41,9 +44,10 @@ type FormValues = yup.InferType<typeof schema>;
 
 interface IProps {
   onSubmit: (data: IPostRequest) => void;
+  formDataProp?: IPostState;
 }
 
-function FormPost({ onSubmit }: IProps) {
+function FormPost({ onSubmit, formDataProp }: IProps) {
   const [categories, setCategories] = useState<SelectOption[]>([]);
 
   const { userInfo } = useAdminContent();
@@ -51,33 +55,32 @@ function FormPost({ onSubmit }: IProps) {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitted },
     resetField,
     control,
     setValue,
     getValues,
-  } = useForm<FormValues>({
-    resolver: yupResolver<FormValues>(schema),
+    trigger,
+  } = useForm({
+    resolver: yupResolver(schema),
   });
 
-  console.log(getValues());
+  // console.log(getValues(), { errors, formDataProp });
 
-  const _onSubmit: SubmitHandler<FormValues> = (data) => {
+  const _onSubmit: SubmitHandler<IPostState> = (data) => {
     const newPost: IPostRequest = {
       title: data.title,
       slug: data.slug,
       content: passImageKeyToContent(data.content, data.imageKeys),
       userId: userInfo?.id || "",
       categoryId: data.categoryId,
-      file: data.thumbnail?.[0] as File,
+      file: data.file?.[0] as File,
       imageKeys: data.imageKeys || [],
       type: data.type || "",
       // trending: data.trending || false,
       author: data.author || "",
-      meta: data.author || "",
+      meta: data.meta || "",
     };
-    console.log({ newPost });
-
     onSubmit(newPost);
   };
 
@@ -87,19 +90,15 @@ function FormPost({ onSubmit }: IProps) {
     const newDiv = document.createElement("div");
     newDiv.innerHTML = content;
     const imgElements = newDiv.querySelectorAll("img");
-    console.log({ imgElements }, newDiv.innerHTML);
     // loop img element to replace source link to image keys
     Array.from(imgElements).forEach((element) => {
       const sourceImage = element.getAttribute("src");
-      console.log({ sourceImage });
       if (!sourceImage) return;
       const imgKeyFound = imageKeys.find((c) => sourceImage.includes(c));
-      console.log({ imgKeyFound });
       if (!imgKeyFound) return;
       element.setAttribute("src", `{{${imgKeyFound}}}`);
       imageKeysUsed.add(imgKeyFound);
     });
-    console.log({ imageKeysUsed });
     // handle delete imageKeys don't use
     const imageKeysNotUsed = imageKeys.filter((key) => !imageKeysUsed.has(key));
     if (imageKeysNotUsed.length) {
@@ -124,6 +123,14 @@ function FormPost({ onSubmit }: IProps) {
       setCategories(categoriesOption);
     });
   }, []);
+
+  useEffect(() => {
+    if (!formDataProp) return;
+    Object.entries(formDataProp).forEach(([key, value]) => {
+      setValue(key as any, value);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formDataProp]);
 
   return (
     <form
@@ -161,12 +168,18 @@ function FormPost({ onSubmit }: IProps) {
         />
       </div>
       <div className="mt-3">
-        <UploadFile
-          label="Thumbnail"
-          {...register("thumbnail")}
-          errorMessage={errors.thumbnail?.message}
-          onDeleteFile={() => resetField("thumbnail")}
-        />
+        <ConditionalRender
+          conditional={!formDataProp?.thumbnail && isSubmitted}>
+          <UploadFile
+            label="Thumbnail"
+            {...register("file")}
+            errorMessage={errors.file?.message}
+            onDeleteFile={() => {
+              resetField("file");
+              isSubmitted && trigger("file");
+            }}
+          />
+        </ConditionalRender>
       </div>
 
       <div className="mt-3">
@@ -182,7 +195,10 @@ function FormPost({ onSubmit }: IProps) {
               label="Content"
               keyName="post-editor"
               value={value || ""}
-              onChange={(data) => setValue("content", data)}
+              onChange={(data) => {
+                setValue("content", data);
+                isSubmitted && trigger("content");
+              }}
               onBlur={onBlur}
               onChangeFile={(data) =>
                 setValue(

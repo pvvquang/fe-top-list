@@ -47,7 +47,7 @@ function AdminLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <AdminProvider>
-      <div className="flex max-w-[1440px] mx-auto">
+      <div className="flex mx-auto">
         <div className="h-screen shrink-0 border-r w-[240px] flex flex-col">
           <Link
             href="/admin"
@@ -62,7 +62,7 @@ function AdminLayout({ children }: { children: React.ReactNode }) {
                   href={menu.path}
                   className={`flex items-center px-4 py-3 mt-2 gap-2 rounded-xl text-sm font-semibold group-hover:bg-indigo-500 group-hover:text-white transition ${
                     checkActive(menu.path)
-                      ? "bg-indigo-500 text-white font-bold cursor-default"
+                      ? "bg-indigo-500 text-white font-bold"
                       : "text-gray-600"
                   }`}>
                   <menu.Icon
